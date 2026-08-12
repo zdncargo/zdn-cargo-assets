@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZDN CARGO - Scan Resi</title>
+
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+  <style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      background:#f8fafc;
+      font-family:Arial,sans-serif;
+    }
+    .card{
+      width:min(100%,430px);
+      background:#fff;
+      border-radius:20px;
+      padding:18px;
+      box-shadow:0 10px 35px rgba(0,0,0,.12);
+    }
+    h2{
+      margin:0 0 6px;
+      text-align:center;
+      color:#0b2d5c;
+      font-size:21px;
+    }
+    .info{
+      margin:0 0 16px;
+      text-align:center;
+      color:#64748b;
+      font-size:14px;
+    }
+    #reader{
+      width:100%;
+      overflow:hidden;
+      border-radius:14px;
+    }
+    .status{
+      margin-top:14px;
+      padding:12px;
+      border-radius:10px;
+      text-align:center;
+      font-size:14px;
+      background:#f1f5f9;
+      color:#475569;
+    }
+    .close{
+      width:100%;
+      margin-top:12px;
+      padding:13px;
+      border:0;
+      border-radius:11px;
+      background:#e2e8f0;
+      color:#334155;
+      font-weight:600;
+      font-size:15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h2>📷 Scan Barcode Resi</h2>
+    <p class="info">Arahkan kamera ke barcode pada paket</p>
+
+    <div id="reader"></div>
+
+    <div id="status" class="status">
+      Menyalakan kamera...
+    </div>
+
+    <button class="close" onclick="window.close()">
+      Tutup Scanner
+    </button>
+  </div>
+
+<script>
+let scanner = null;
+let sudahScan = false;
+
+function setStatus(text){
+  document.getElementById("status").textContent = text;
+}
+
+function kirimHasil(resi){
+  if(sudahScan) return;
+  sudahScan = true;
+
+  setStatus("Barcode terbaca: " + resi);
+
+  // Kirim nomor resi kembali ke halaman Apps Script
+  if(window.opener && !window.opener.closed){
+
+    window.opener.postMessage(
+      {
+        type: "ZDN_CARGO_SCAN_RESI",
+        resi: resi
+      },
+      "*"
+    );
+
+    setTimeout(function(){
+      window.close();
+    }, 500);
+
+  }else{
+    setStatus("Hasil scan: " + resi);
+  }
+}
+
+function mulaiScanner(){
+
+  if(!window.Html5Qrcode){
+    setStatus("Scanner gagal dimuat. Periksa koneksi internet.");
+    return;
+  }
+
+  scanner = new Html5Qrcode("reader");
+
+  scanner.start(
+    { facingMode: "environment" },
+
+    {
+      fps: 10,
+      qrbox: function(width, height){
+
+        const size = Math.floor(
+          Math.min(width, height) * 0.72
+        );
+
+        return {
+          width: size,
+          height: Math.floor(size * 0.45)
+        };
+      }
+    },
+
+    function(decodedText){
+      kirimHasil(decodedText.trim());
+    },
+
+    function(){
+      // Abaikan error pembacaan frame.
+    }
+
+  ).then(function(){
+    setStatus("Kamera aktif — arahkan ke barcode resi.");
+  })
+
+  .catch(function(error){
+    console.error(error);
+    setStatus(
+      "Kamera tidak dapat dibuka. Pastikan izin kamera diberikan."
+    );
+  });
+}
+
+window.addEventListener("beforeunload", function(){
+
+  if(scanner){
+    scanner.stop().catch(function(){});
+  }
+
+});
+
+window.addEventListener("load", mulaiScanner);
+</script>
+
+</body>
+</html>
