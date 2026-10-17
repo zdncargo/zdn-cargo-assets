@@ -1,0 +1,244 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile and role in ZDN Cargo",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["superadmin", "admin"] },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "role", "status"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer contact and profile data",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "notes": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "depositBalance": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name"]
+    },
+    "Package": {
+      "title": "Package",
+      "description": "Package shipment tracked from Jakarta to Timika",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "waybill": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerWhatsapp": { "type": "string" },
+        "closingDate": { "type": "string" },
+        "status": { "type": "string", "enum": ["Tiba di Gudang Jakarta", "Terbang", "Dalam Perjalanan", "Tiba di Timika"] },
+        "paymentStatus": { "type": "string", "enum": ["unpaid", "partial", "paid"] },
+        "weight": { "type": "number" },
+        "isPromo": { "type": "boolean" },
+        "promoAmount": { "type": "number" },
+        "normalCost": { "type": "number" },
+        "finalCost": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "remainingCost": { "type": "number" },
+        "paymentId": { "type": "string" },
+        "scannedBy": { "type": "string" },
+        "weighedBy": { "type": "string" },
+        "notes": { "type": "string" },
+        "isArchived": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "waybill", "customerId", "customerName", "closingDate", "status", "paymentStatus"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Payment transaction for one or more packages",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "packageIds": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "amountReceived": { "type": "number" },
+        "depositUsed": { "type": "number" },
+        "excessToDeposit": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["cash", "transfer", "qris"] },
+        "deliveryStatus": { "type": "string", "enum": ["diambil", "titip"] },
+        "paidAt": { "type": "string" },
+        "receivedBy": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "customerId", "customerName", "totalAmount", "paymentMethod", "deliveryStatus"]
+    },
+    "CustomerDeposit": {
+      "title": "CustomerDeposit",
+      "description": "Customer deposit ledger entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerId": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["credit", "debit"] },
+        "balanceAfter": { "type": "number" },
+        "reason": { "type": "string" },
+        "paymentId": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "customerId", "amount", "type", "balanceAfter"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Operational expense record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "category": { "type": "string" },
+        "amount": { "type": "number" },
+        "description": { "type": "string" },
+        "date": { "type": "string" },
+        "recordedBy": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "category", "amount", "date"]
+    },
+    "AppSettings": {
+      "title": "AppSettings",
+      "description": "System settings and company profile",
+      "type": "object",
+      "properties": {
+        "tariffPerKg": { "type": "number" },
+        "minTariff": { "type": "number" },
+        "roundUpMultiple": { "type": "number" },
+        "promoAmount": { "type": "number" },
+        "promoActive": { "type": "boolean" },
+        "promoName": { "type": "string" },
+        "promoDescription": { "type": "string" },
+        "effectiveDate": { "type": "string" },
+        "businessName": { "type": "string" },
+        "businessAddress": { "type": "string" },
+        "businessPhone": { "type": "string" },
+        "businessWhatsapp": { "type": "string" },
+        "routeInfo": { "type": "string" },
+        "promoInfo": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "qrisImageUrl": { "type": "string" },
+        "bankName": { "type": "string" },
+        "bankAccount": { "type": "string" },
+        "bankAccountHolder": { "type": "string" },
+        "paymentInstructions": { "type": "string" },
+        "dateFormat": { "type": "string" },
+        "timezone": { "type": "string" },
+        "currency": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "updatedBy": { "type": "string" }
+      }
+    },
+    "DocumentTemplate": {
+      "title": "DocumentTemplate",
+      "description": "PDF Document configuration template",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "templateType": { "type": "string" },
+        "name": { "type": "string" },
+        "paperSize": { "type": "string" },
+        "orientation": { "type": "string" },
+        "elements": { "type": "array" },
+        "showHeader": { "type": "boolean" },
+        "showFooter": { "type": "boolean" },
+        "notes": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "templateType", "name"]
+    },
+    "MessageTemplate": {
+      "title": "MessageTemplate",
+      "description": "WhatsApp and notification message template",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "messageType": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "messageType", "title", "content"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Audit log for operational actions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "action": { "type": "string" },
+        "category": { "type": "string" },
+        "targetId": { "type": "string" },
+        "details": { "type": "string" },
+        "performedBy": { "type": "string" },
+        "performedByEmail": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "action", "category", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profiles and roles"
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Administrative authority mapping"
+    },
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Customer contact registry"
+    },
+    "/packages/{packageId}": {
+      "schema": { "$ref": "#/entities/Package" },
+      "description": "Air cargo packages"
+    },
+    "/payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/Payment" },
+      "description": "Payment records"
+    },
+    "/customerDeposits/{depositId}": {
+      "schema": { "$ref": "#/entities/CustomerDeposit" },
+      "description": "Customer deposit ledger"
+    },
+    "/expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/Expense" },
+      "description": "Expenses"
+    },
+    "/settings/global": {
+      "schema": { "$ref": "#/entities/AppSettings" },
+      "description": "Global application configuration"
+    },
+    "/documentTemplates/{templateId}": {
+      "schema": { "$ref": "#/entities/DocumentTemplate" },
+      "description": "PDF templates"
+    },
+    "/messageTemplates/{templateId}": {
+      "schema": { "$ref": "#/entities/MessageTemplate" },
+      "description": "WhatsApp templates"
+    },
+    "/auditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Audit trail"
+    }
+  }
+}

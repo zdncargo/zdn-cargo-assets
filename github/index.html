@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZDN CARGO — Zona Distribusi Niaga</title>
+    <meta name="description" content="Aplikasi operasional pengiriman kargo udara rute Jakarta - Timika. Layanan cepat, terpercaya, dan akurat." />
+    <meta property="og:title" content="ZDN CARGO — Zona Distribusi Niaga" />
+    <meta property="og:description" content="Aplikasi operasional pengiriman kargo udara rute Jakarta - Timika. Layanan cepat, terpercaya, dan akurat." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Suppress Vite HMR WebSocket connection errors in AI Studio iframe environment
+      window.addEventListener('unhandledrejection', function (event) {
+        var str = event && event.reason ? String(event.reason.message || event.reason) : '';
+        if (str.indexOf('WebSocket') !== -1 || str.indexOf('[vite]') !== -1) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        }
+      });
+      window.addEventListener('error', function (event) {
+        var str = event && event.message ? String(event.message) : '';
+        if (str.indexOf('WebSocket') !== -1 || str.indexOf('[vite]') !== -1) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

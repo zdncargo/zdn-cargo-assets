@@ -1,0 +1,6 @@
+{
+  "name": "ZDN CARGO — Zona Distribusi Niaga",
+  "description": "Aplikasi operasional pengiriman kargo udara rute Jakarta - Timika. Layanan cepat, terpercaya, dan akurat.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
